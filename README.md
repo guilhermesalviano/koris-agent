@@ -1,5 +1,10 @@
 # OpenCrawdi 🤖
 
+[![Tests](https://github.com/guilhermesalviano/opencrawdi/workflows/Tests/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
+[![Lint](https://github.com/guilhermesalviano/opencrawdi/workflows/Lint/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+[![pnpm](https://img.shields.io/badge/pnpm-9.x-orange.svg)](https://pnpm.io/)
+
 An AI-powered coding agent similar to Cline/Claude Code that uses Ollama for local AI inference and Telegram as the user interface.
 
 ## Features
@@ -61,6 +66,43 @@ pnpm start
 
 # Run production build (CLI mode)
 pnpm start:cli
+
+# Run tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with UI
+pnpm test:ui
+```
+
+## Testing
+
+The project includes comprehensive unit tests covering:
+- Command handling (CLI & Telegram)
+- Instruction detection
+- File operations
+- Telegram bot integration
+- Markdown escaping
+
+See [TESTS.md](TESTS.md) for detailed testing guide.
+
+### CI/CD
+
+GitHub Actions automatically run tests on every commit:
+- ✅ Unit tests on Node.js 20.x
+- ✅ TypeScript type checking
+- ✅ Build verification
+
+See [.github/workflows/README.md](.github/workflows/README.md) for workflow details.
+
+
+## Status Badges
+
+```markdown
+[![Tests](https://github.com/guilhermesalviano/opencrawdi/workflows/Tests/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
+[![Lint](https://github.com/guilhermesalviano/opencrawdi/workflows/Lint/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
 ```
 
 ## Configuration
