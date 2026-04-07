@@ -1,18 +1,30 @@
 import * as fs from "fs";
 import * as path from "path";
 
+/**
+ * Escape special characters for Telegram Markdown
+ */
+function escapeMarkdown(text: string): string {
+  return text.replace(/[_*[\]()~`>#+=|{}.!-]/g, '\\$&');
+}
+
 function listDirectory(dirPath: string): string {
   try {
-    const resolved = path.resolve(dirPath);
+    const targetPath = !dirPath || dirPath.trim() === '' || dirPath === '.' 
+      ? process.cwd() 
+      : dirPath;
+    
+    const resolved = path.resolve(targetPath);
     const entries = fs.readdirSync(resolved, { withFileTypes: true });
 
     if (entries.length === 0) {
-      return `📁 *Directory listing: ${resolved}*\n\n_Empty directory._`;
+      const escapedPath = escapeMarkdown(resolved);
+      return `📁 *Directory listing: ${escapedPath}*\n\n_Empty directory\\._`;
     }
 
     const folders = entries
       .filter((e) => e.isDirectory())
-      .map((e) => `📁 ${e.name}/`)
+      .map((e) => `📁 ${escapeMarkdown(e.name)}/`)
       .join("\n");
 
     const files = entries
@@ -20,24 +32,27 @@ function listDirectory(dirPath: string): string {
       .map((e) => {
         const stats = fs.statSync(path.join(resolved, e.name));
         const size = formatSize(stats.size);
-        return `📄 ${e.name} _(${size})_`;
+        return `📄 ${escapeMarkdown(e.name)} _\\(${size}\\)_`;
       })
       .join("\n");
 
     const lines = [folders, files].filter(Boolean).join("\n");
+    const escapedPath = escapeMarkdown(resolved);
 
-    return `📁 *Directory listing: ${resolved}*\n\n${lines}`;
+    return `📁 *Directory listing: ${escapedPath}*\n\n${lines}`;
   } catch (err: any) {
+    const escapedPath = escapeMarkdown(dirPath);
     if (err.code === "ENOENT") {
-      return `❌ *Path not found:* \`${dirPath}\``;
+      return `❌ *Path not found:* \`${escapedPath}\``;
     }
     if (err.code === "ENOTDIR") {
-      return `❌ *Not a directory:* \`${dirPath}\``;
+      return `❌ *Not a directory:* \`${escapedPath}\``;
     }
     if (err.code === "EACCES") {
-      return `🔒 *Permission denied:* \`${dirPath}\``;
+      return `🔒 *Permission denied:* \`${escapedPath}\``;
     }
-    return `❌ *Error reading directory:* ${err.message}`;
+    const escapedError = escapeMarkdown(err.message);
+    return `❌ *Error reading directory:* ${escapedError}`;
   }
 }
 

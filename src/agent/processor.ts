@@ -28,6 +28,7 @@ export async function processUserMessage(
   // Mock instruction handling
   const instruction = detectInstruction(message);
   if (instruction) {
+    // logger.log("info", `Detected instruction: ${instruction.type} with params: ${instruction.params}`);
     return handleInstruction(instruction, message);
   }
 
