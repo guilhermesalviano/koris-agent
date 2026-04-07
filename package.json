@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "dev:cli": "tsx watch src/index.ts --cli",
-    "build": "rm -rf dist && npx tsc",
+    "clean": "rm -rf dist",
+    "build": "pnpm run clean && tsc --project tsconfig.json",
     "start": "node dist/src/index.js",
     "start:cli": "node dist/src/index.js --cli",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,7 +19,6 @@
   "keywords": [],
   "author": "guilhermesalviano",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/guilhermesalviano/opencrawdi/issues"
   },
