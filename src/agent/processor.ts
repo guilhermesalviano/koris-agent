@@ -1,3 +1,4 @@
+// import { ILogger } from '@/infrastructure/logger';
 import { handleCommand as handleCentralizedCommand, isCommand } from './commands';
 
 /**
@@ -5,12 +6,13 @@ import { handleCommand as handleCentralizedCommand, isCommand } from './commands
  * This is a mock implementation that will be replaced with Ollama integration
  */
 export async function processUserMessage(
+  // logger: ILogger,
   message: string,
   source: 'telegram' | 'cli'
 ): Promise<string> {
   // Only log for telegram source to avoid breaking CLI interface
   if (source === 'telegram') {
-    console.log(`📥 Processing message from ${source}: "${message}"`);
+    // logger.log("info", `📥 Processing message from ${source}: "${message}"`);
   }
 
   // Handle commands using centralized handler

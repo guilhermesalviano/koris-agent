@@ -144,6 +144,7 @@ src/
 - [ ] multi sessões - rodar me background com o telegram e ter a possibilidade de startar outra no CLI;
 - [ ] orquestrador do meu docker - interface http para saber qual container ligar;
   - Cachear responses, keep-alive enquanto liga...
+- [ ] implementar permissões ao agente de mock - testar como executar os subcomandos...
 
 ## License
 
