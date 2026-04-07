@@ -1,5 +1,6 @@
 import readline from 'readline';
 import { processUserMessage } from '../agent/processor';
+import { handleCommand as handleCentralizedCommand, isCommand } from '../agent/commands';
 
 // ANSI color codes
 const colors = {
@@ -45,9 +46,38 @@ export function startCLI(): void {
       return;
     }
 
-    // Handle slash commands
-    if (trimmed.startsWith('/')) {
-      handleCommand(trimmed, rl, session);
+    // Handle slash commands using centralized handler
+    if (isCommand(trimmed)) {
+      const result = handleCentralizedCommand(trimmed, { source: 'cli', session, rl });
+      
+      // Handle actions
+      if (result.action === 'exit') {
+        console.log(`\n${colors.green}${result.response}${colors.reset}`);
+        rl.close();
+        return;
+      }
+      
+      if (result.action === 'clear') {
+        console.clear();
+        printWelcome();
+        rl.prompt();
+        return;
+      }
+      
+      if (result.action === 'reset') {
+        session.messageCount = 0;
+        session.startTime = new Date();
+        console.log(`${colors.green}${result.response}${colors.reset}\n`);
+        rl.prompt();
+        return;
+      }
+      
+      // Display response
+      if (result.response) {
+        console.log(`\n${result.response}\n`);
+      }
+      
+      rl.prompt();
       return;
     }
 
@@ -101,74 +131,6 @@ function printWelcome(): void {
   console.log();
   console.log(`${colors.dim}Type your message or use slash commands for help.${colors.reset}`);
   console.log(`${colors.dim}Commands: /help /clear /exit /stats${colors.reset}`);
-  console.log();
-}
-
-function handleCommand(command: string, rl: readline.Interface, session: SessionState): void {
-  const cmd = command.toLowerCase().split(' ')[0];
-
-  switch (cmd) {
-    case '/help':
-      printHelp();
-      break;
-
-    case '/clear':
-      console.clear();
-      printWelcome();
-      break;
-
-    case '/exit':
-    case '/quit':
-    case '/bye':
-      console.log(`\n${colors.green}👋 Goodbye!${colors.reset}`);
-      rl.close();
-      return;
-
-    case '/stats':
-      printStats(session);
-      break;
-
-    case '/reset':
-      session.messageCount = 0;
-      session.startTime = new Date();
-      console.log(`${colors.green}✓ Session reset${colors.reset}\n`);
-      break;
-
-    default:
-      console.log(`${colors.red}Unknown command: ${command}${colors.reset}`);
-      console.log(`${colors.dim}Type /help for available commands${colors.reset}\n`);
-  }
-
-  rl.prompt();
-}
-
-function printHelp(): void {
-  console.log();
-  console.log(`${colors.bright}Available Commands:${colors.reset}`);
-  console.log();
-  console.log(`  ${colors.cyan}/help${colors.reset}     - Show this help message`);
-  console.log(`  ${colors.cyan}/clear${colors.reset}    - Clear the screen`);
-  console.log(`  ${colors.cyan}/stats${colors.reset}    - Show session statistics`);
-  console.log(`  ${colors.cyan}/reset${colors.reset}    - Reset session statistics`);
-  console.log(`  ${colors.cyan}/exit${colors.reset}     - Exit the CLI`);
-  console.log();
-  console.log(`${colors.bright}Tips:${colors.reset}`);
-  console.log(`  ${colors.dim}• Press Ctrl+C to interrupt${colors.reset}`);
-  console.log(`  ${colors.dim}• Type naturally - no special format needed${colors.reset}`);
-  console.log();
-}
-
-function printStats(session: SessionState): void {
-  const uptime = Math.floor((Date.now() - session.startTime.getTime()) / 1000);
-  const minutes = Math.floor(uptime / 60);
-  const seconds = uptime % 60;
-
-  console.log();
-  console.log(`${colors.bright}Session Statistics:${colors.reset}`);
-  console.log();
-  console.log(`  ${colors.dim}Messages:${colors.reset} ${session.messageCount}`);
-  console.log(`  ${colors.dim}Uptime:${colors.reset}   ${minutes}m ${seconds}s`);
-  console.log(`  ${colors.dim}Started:${colors.reset}  ${session.startTime.toLocaleTimeString()}`);
   console.log();
 }
 

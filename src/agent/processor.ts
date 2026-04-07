@@ -1,3 +1,5 @@
+import { handleCommand as handleCentralizedCommand, isCommand } from './commands';
+
 /**
  * Process user messages and generate responses
  * This is a mock implementation that will be replaced with Ollama integration
@@ -11,9 +13,10 @@ export async function processUserMessage(
     console.log(`📥 Processing message from ${source}: "${message}"`);
   }
 
-  // Mock command detection
-  if (message.startsWith('/')) {
-    return handleCommand(message);
+  // Handle commands using centralized handler
+  if (isCommand(message)) {
+    const result = handleCentralizedCommand(message, { source });
+    return result.response || '';
   }
 
   // Mock instruction handling
@@ -103,58 +106,7 @@ async function handleInstruction(instruction: Instruction, originalMessage: stri
   }
 }
 
-/**
- * Handle commands like /start, /help, etc.
- */
-function handleCommand(command: string): string {
-  const cmd = command.split(' ')[0];
 
-  switch (cmd) {
-    case '/start':
-      return `👋 *Welcome to OpenCrawdi!*
-
-I'm an AI coding agent powered by Ollama. I can help you with:
-
-• Reading and analyzing code
-• Making file changes
-• Running commands
-• Answering coding questions
-
-Just send me a message with what you need!`;
-
-    case '/help':
-      return `*Available Commands:*
-
-/start - Welcome message
-/help - Show this help
-/status - Check bot status
-/clear - Clear conversation history
-
-*Instructions I understand:*
-
-• "read <file>" - Read a file
-• "list <directory>" - List directory contents
-• "search <term>" - Search in files
-• "execute <command>" - Run a command
-• "write <file>" - Create/update a file
-
-Send me any message to interact!`;
-
-    case '/status':
-      return `✅ *Bot Status*
-
-• Connection: Active
-• Mode: Mock Implementation
-• Ollama: Not connected (using mock)
-• Ready to assist!`;
-
-    case '/clear':
-      return '🗑️ Conversation history cleared!';
-
-    default:
-      return '❓ Unknown command. Type /help to see available commands.';
-  }
-}
 
 // Mock tool implementations
 
