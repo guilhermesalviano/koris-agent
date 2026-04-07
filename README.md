@@ -6,8 +6,8 @@ An AI-powered coding agent similar to Cline/Claude Code that uses Ollama for loc
 
 - 🤖 AI coding agent powered by Ollama (local LLM)
 - 💬 Telegram bot interface for easy access
-- 📁 File operations (read, write, edit)
-- ⚙️ Command execution capabilities
+- 📁 File operations (read, write, edit) - *Coming soon*
+- ⚙️ Command execution capabilities - *Coming soon*
 - 🔒 Local-first (your code never leaves your machine)
 
 ## Prerequisites
@@ -40,7 +40,7 @@ An AI-powered coding agent similar to Cline/Claude Code that uses Ollama for loc
    # Edit .env and add your TELEGRAM_BOT_TOKEN
    ```
 
-5. **Run in development mode:**
+5. **Run the bot:**
    ```bash
    pnpm dev
    ```
@@ -64,8 +64,7 @@ pnpm start
 
 Edit `.env` to configure:
 
-- `TELEGRAM_BOT_TOKEN` - Your Telegram bot token
-- `TELEGRAM_USE_POLLING` - Set to `true` for local development
+- `TELEGRAM_BOT_TOKEN` - Your Telegram bot token (required)
 - `OLLAMA_BASE_URL` - Ollama API endpoint (default: http://localhost:11434)
 - `OLLAMA_MODEL` - Model to use (default: llama3.1)
 
