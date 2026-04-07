@@ -1,31 +1,30 @@
 import { initBot } from './telegram/bot';
 import { startCLI } from './cli/interface';
+import { LoggerFactory } from './infrastructure/logger';
 
-console.log('🚀 Starting OpenCrawdi...\n');
+const logger = LoggerFactory.create();
 
-// Check if running in CLI mode
-const cliMode = process.argv.includes('--cli');
+logger.log("info", "🚀 Starting OpenCrawdi...\n");
+
+const cliMode = process.argv.includes("--cli");
 
 if (cliMode) {
-  // CLI Mode
-  console.log('Mode: CLI\n');
+  logger.log("info", "Mode: CLI\n");
   startCLI();
 } else {
-  // Telegram Mode
-  console.log('Mode: Telegram Bot\n');
+  logger.log("info", "Mode: Telegram Bot\n");
   const bot = initBot();
-  console.log('✅ Bot is ready! Send a message to your bot on Telegram.\n');
-  console.log('💡 Tip: Run with --cli flag to use CLI mode instead.\n');
+  logger.log("info", "✅ Bot is ready! Send a message to your bot on Telegram.\n");
+  logger.log("info", "💡 Tip: Run with --cli flag to use CLI mode instead.\n");
 
-  // Graceful shutdown
-  process.on('SIGINT', () => {
-    console.log('\n👋 Shutting down gracefully...');
+  process.on("SIGINT", () => {
+    logger.log("info", "\n👋 Shutting down gracefully...");
     bot.stopPolling();
     process.exit(0);
   });
 
-  process.on('SIGTERM', () => {
-    console.log('\n👋 Shutting down gracefully...');
+  process.on("SIGTERM", () => {
+    logger.log("info", "\n👋 Shutting down gracefully...");
     bot.stopPolling();
     process.exit(0);
   });

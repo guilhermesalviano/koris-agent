@@ -136,6 +136,13 @@ src/
     └── processor.ts    # Message processing and mock tools
 ```
 
+## To-do
+
+- [] wrap de IA, testes;
+- [] multi sessões - rodar me background com o telegram e ter a possibilidade de startar outra no CLI;
+- [] orquestrador do meu docker - interface http para saber qual container ligar;
+  - Cachear responses, keep-alive enquanto liga...
+
 ## License
 
 ISC

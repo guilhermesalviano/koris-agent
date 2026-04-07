@@ -6,7 +6,7 @@ let bot: TelegramBot;
 
 export function initBot(): TelegramBot {
   // Always use polling mode
-  bot = new TelegramBot(config.telegram.botToken, { polling: true });
+  bot = new TelegramBot(config.TELEGRAM.BOT_TOKEN, { polling: true });
   console.log('🤖 Telegram bot started in polling mode');
 
   // Register handlers
