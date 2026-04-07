@@ -6,7 +6,10 @@ export async function processUserMessage(
   message: string,
   source: 'telegram' | 'cli'
 ): Promise<string> {
-  console.log(`📥 Processing message from ${source}: "${message}"`);
+  // Only log for telegram source to avoid breaking CLI interface
+  if (source === 'telegram') {
+    console.log(`📥 Processing message from ${source}: "${message}"`);
+  }
 
   // Mock command detection
   if (message.startsWith('/')) {
