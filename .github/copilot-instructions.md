@@ -1,10 +1,10 @@
-# OpenCrawDI Architecture & Development Guide
+# opencrawdio Architecture & Development Guide
 
-This document provides comprehensive guidance for AI coding assistants and developers working on the OpenCrawDI codebase.
+This document provides comprehensive guidance for AI coding assistants and developers working on the opencrawdio codebase.
 
 ## Project Overview
 
-OpenCrawDI is an AI-powered coding agent similar to Cline/Claude Code that uses Ollama for local AI inference. It features dual interfaces (Telegram bot + CLI) with a unified backend for processing user messages and executing coding tasks.
+opencrawdio is an AI-powered coding agent similar to Cline/Claude Code that uses Ollama for local AI inference. It features dual interfaces (Telegram bot + CLI) with a unified backend for processing user messages and executing coding tasks.
 
 ### Key Characteristics
 
@@ -326,7 +326,7 @@ pnpm start
 **Example Conversation**:
 ```
 User: /start
-Bot: 👋 Welcome to OpenCrawdi! [...]
+Bot: 👋 Welcome to opencrawdio! [...]
 
 User: read package.json
 Bot: 📄 Reading file: package.json [...]
@@ -595,4 +595,4 @@ When modifying the agent system:
 
 ---
 
-**Note for AI Assistants**: This document serves as the source of truth for the OpenCrawDI architecture. When making changes, ensure they align with the patterns and principles described here. Always prioritize security, user experience, and maintainability.
+**Note for AI Assistants**: This document serves as the source of truth for the opencrawdio architecture. When making changes, ensure they align with the patterns and principles described here. Always prioritize security, user experience, and maintainability.

@@ -1,10 +1,10 @@
-# OpenCrawDI Agent System
+# opencrawdio Agent System
 
-**AI Coding Assistants**: This document describes the agent architecture and capabilities of OpenCrawDI. Use this as context when working with this codebase.
+**AI Coding Assistants**: This document describes the agent architecture and capabilities of opencrawdio. Use this as context when working with this codebase.
 
 ## Architecture Overview
 
-OpenCrawDI is a multi-interface AI agent system that processes user messages and executes coding tasks. The system supports both CLI and Telegram Bot interfaces with a unified backend.
+opencrawdio is a multi-interface AI agent system that processes user messages and executes coding tasks. The system supports both CLI and Telegram Bot interfaces with a unified backend.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -310,7 +310,7 @@ npm run dev:cli
 ### Telegram Usage
 ```
 User: /start
-Bot: 👋 Welcome to OpenCrawdi! [...]
+Bot: 👋 Welcome to opencrawdio! [...]
 
 User: read package.json
 Bot: 📄 Reading file: package.json [...]

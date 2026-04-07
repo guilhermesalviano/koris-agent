@@ -1,5 +1,5 @@
 {
-  "name": "opencrawdi",
+  "name": "opencrawdio",
   "version": "1.0.0",
   "description": "",
   "main": "dist/src/index.js",
@@ -17,15 +17,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/guilhermesalviano/opencrawdi.git"
+    "url": "git+https://github.com/guilhermesalviano/opencrawdio.git"
   },
   "keywords": [],
   "author": "guilhermesalviano",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/guilhermesalviano/opencrawdi/issues"
+    "url": "https://github.com/guilhermesalviano/opencrawdio/issues"
   },
-  "homepage": "https://github.com/guilhermesalviano/opencrawdi#readme",
+  "homepage": "https://github.com/guilhermesalviano/opencrawdio#readme",
   "dependencies": {
     "dotenv": "^17.4.1",
     "node-telegram-bot-api": "^0.67.0",

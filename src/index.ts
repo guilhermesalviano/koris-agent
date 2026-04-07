@@ -4,7 +4,7 @@ import { LoggerFactory } from './infrastructure/logger';
 
 const logger = LoggerFactory.create();
 
-logger.log("info", "🚀 Starting OpenCrawdi...\n");
+logger.log("info", "🚀 Starting opencrawdio...\n");
 
 const cliMode = process.argv.includes("--cli");
 

@@ -7,7 +7,7 @@ describe('Read File', () => {
       const result = readFile('package.json');
       expect(result).toContain('Reading file');
       expect(result).toContain('package.json');
-      expect(result).toContain('opencrawdi'); // Package name
+      expect(result).toContain('opencrawdio'); // Package name
     });
 
     it('should read README.md', () => {

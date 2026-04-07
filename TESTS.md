@@ -1,4 +1,4 @@
-# OpenCrawDI Tests
+# opencrawdio Tests
 
 Comprehensive test suite for CLI and Telegram interfaces.
 

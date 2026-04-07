@@ -1,7 +1,7 @@
-# OpenCrawdi 🤖
+# opencrawdio 🤖
 
-[![Tests](https://github.com/guilhermesalviano/opencrawdi/workflows/Tests/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
-[![Lint](https://github.com/guilhermesalviano/opencrawdi/workflows/Lint/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
+[![Tests](https://github.com/guilhermesalviano/opencrawdio/workflows/Tests/badge.svg)](https://github.com/guilhermesalviano/opencrawdio/actions)
+[![Lint](https://github.com/guilhermesalviano/opencrawdio/workflows/Lint/badge.svg)](https://github.com/guilhermesalviano/opencrawdio/actions)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 [![pnpm](https://img.shields.io/badge/pnpm-9.x-orange.svg)](https://pnpm.io/)
 
@@ -101,8 +101,8 @@ See [.github/workflows/README.md](.github/workflows/README.md) for workflow deta
 ## Status Badges
 
 ```markdown
-[![Tests](https://github.com/guilhermesalviano/opencrawdi/workflows/Tests/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
-[![Lint](https://github.com/guilhermesalviano/opencrawdi/workflows/Lint/badge.svg)](https://github.com/guilhermesalviano/opencrawdi/actions)
+[![Tests](https://github.com/guilhermesalviano/opencrawdio/workflows/Tests/badge.svg)](https://github.com/guilhermesalviano/opencrawdio/actions)
+[![Lint](https://github.com/guilhermesalviano/opencrawdio/workflows/Lint/badge.svg)](https://github.com/guilhermesalviano/opencrawdio/actions)
 ```
 
 ## Configuration

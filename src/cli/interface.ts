@@ -126,7 +126,7 @@ export function startCLI(): void {
 function printWelcome(): void {
   console.clear();
   console.log(`${colors.bright}${colors.cyan}╔═══════════════════════════════════════════════════════════╗${colors.reset}`);
-  console.log(`${colors.bright}${colors.cyan}║${colors.reset}  ${colors.bright}OpenCrawDI - AI Assistant${colors.reset}                                ${colors.bright}${colors.cyan}║${colors.reset}`);
+  console.log(`${colors.bright}${colors.cyan}║${colors.reset}  ${colors.bright}opencrawdio - AI Assistant${colors.reset}                                ${colors.bright}${colors.cyan}║${colors.reset}`);
   console.log(`${colors.bright}${colors.cyan}╚═══════════════════════════════════════════════════════════╝${colors.reset}`);
   console.log();
   console.log(`${colors.dim}Type your message or use slash commands for help.${colors.reset}`);
