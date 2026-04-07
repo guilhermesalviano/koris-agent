@@ -8,8 +8,6 @@ function readFile(filename: string): string {
     if (!resolved.startsWith(config.BASE_DIR)) {
       throw new Error('Permission denied: Access outside of allowed directory');
     }
-    console.log(`Resolved path: ${resolved}, Base dir: ${config.BASE_DIR}`);
-
     const stats = fs.statSync(resolved);
 
     if (stats.isDirectory()) {
