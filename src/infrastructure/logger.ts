@@ -1,7 +1,7 @@
 import {
   Logger as WinstonLogger, createLogger, format, LoggerOptions, transports,
 } from 'winston';
-import { config } from '@/config';
+import { config } from '../config';
 
 interface ILogger {
   log(level: string, message: string, meta?: Record<string, unknown>): void;
