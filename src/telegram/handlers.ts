@@ -1,8 +1,8 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { getBot } from './bot';
+import { processUserMessage } from '../agent/processor';
 
 export async function handleMessage(msg: TelegramBot.Message): Promise<void> {
-  const bot = getBot();
   const chatId = msg.chat.id;
   const text = msg.text;
 
@@ -24,57 +24,20 @@ async function handleCommand(msg: TelegramBot.Message): Promise<void> {
   const bot = getBot();
   const chatId = msg.chat.id;
   const text = msg.text || '';
-  const command = text.split(' ')[0];
 
-  switch (command) {
-    case '/start':
-      await bot.sendMessage(
-        chatId,
-        '👋 *Welcome to OpenCrawdi!*\n\n' +
-          'I\'m an AI coding agent powered by Ollama. I can help you with:\n\n' +
-          '• Reading and analyzing code\n' +
-          '• Making file changes\n' +
-          '• Running commands\n' +
-          '• Answering coding questions\n\n' +
-          'Just send me a message with what you need!',
-        { parse_mode: 'Markdown' }
-      );
-      break;
+  try {
+    // Send typing indicator
+    await bot.sendChatAction(chatId, 'typing');
 
-    case '/help':
-      await bot.sendMessage(
-        chatId,
-        '*Available Commands:*\n\n' +
-          '/start - Welcome message\n' +
-          '/help - Show this help\n' +
-          '/status - Check bot status\n' +
-          '/clear - Clear conversation history\n\n' +
-          'Send me any message to interact with the AI agent!',
-        { parse_mode: 'Markdown' }
-      );
-      break;
-
-    case '/status':
-      await bot.sendMessage(
-        chatId,
-        '✅ *Bot Status*\n\n' +
-          '• Connection: Active\n' +
-          '• Ollama: Connected\n' +
-          '• Ready to assist!',
-        { parse_mode: 'Markdown' }
-      );
-      break;
-
-    case '/clear':
-      // TODO: Clear conversation history for this chat
-      await bot.sendMessage(chatId, '🗑️ Conversation history cleared!');
-      break;
-
-    default:
-      await bot.sendMessage(
-        chatId,
-        '❓ Unknown command. Type /help to see available commands.'
-      );
+    // Process command through agent processor
+    const response = await processUserMessage(text, 'telegram');
+    await bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
+  } catch (error) {
+    console.error('Error handling command:', error);
+    await bot.sendMessage(
+      chatId,
+      '❌ Sorry, I encountered an error processing your command. Please try again.'
+    );
   }
 }
 
@@ -85,10 +48,8 @@ async function handleUserMessage(chatId: number, text: string): Promise<void> {
     // Send typing indicator
     await bot.sendChatAction(chatId, 'typing');
 
-    // TODO: Process message with Ollama AI
-    // For now, send a simple echo response
-    const response = `🤖 Received your message:\n\n"${text}"\n\n_AI processing will be implemented next!_`;
-
+    // Process message through agent processor
+    const response = await processUserMessage(text, 'telegram');
     await bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
   } catch (error) {
     console.error('Error handling message:', error);

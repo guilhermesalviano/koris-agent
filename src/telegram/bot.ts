@@ -1,6 +1,6 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { config } from '../config.js';
-import { handleMessage } from './handlers.js';
+import { config } from '../config';
+import { handleMessage } from './handlers';
 
 let bot: TelegramBot;
 

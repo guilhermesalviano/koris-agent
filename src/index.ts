@@ -1,21 +1,32 @@
-import { initBot } from './telegram/bot.js';
+import { initBot } from './telegram/bot';
+import { startCLI } from './cli/interface';
 
-console.log('🚀 Starting OpenCrawdi bot...\n');
+console.log('🚀 Starting OpenCrawdi...\n');
 
-// Initialize Telegram bot
-const bot = initBot();
+// Check if running in CLI mode
+const cliMode = process.argv.includes('--cli');
 
-console.log('✅ Bot is ready! Send a message to your bot on Telegram.\n');
+if (cliMode) {
+  // CLI Mode
+  console.log('Mode: CLI\n');
+  startCLI();
+} else {
+  // Telegram Mode
+  console.log('Mode: Telegram Bot\n');
+  const bot = initBot();
+  console.log('✅ Bot is ready! Send a message to your bot on Telegram.\n');
+  console.log('💡 Tip: Run with --cli flag to use CLI mode instead.\n');
 
-// Graceful shutdown
-process.on('SIGINT', () => {
-  console.log('\n👋 Shutting down gracefully...');
-  bot.stopPolling();
-  process.exit(0);
-});
+  // Graceful shutdown
+  process.on('SIGINT', () => {
+    console.log('\n👋 Shutting down gracefully...');
+    bot.stopPolling();
+    process.exit(0);
+  });
 
-process.on('SIGTERM', () => {
-  console.log('\n👋 Shutting down gracefully...');
-  bot.stopPolling();
-  process.exit(0);
-});
+  process.on('SIGTERM', () => {
+    console.log('\n👋 Shutting down gracefully...');
+    bot.stopPolling();
+    process.exit(0);
+  });
+}
