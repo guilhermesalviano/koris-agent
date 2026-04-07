@@ -1,3 +1,4 @@
+import { config } from "../config";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -11,10 +12,15 @@ function escapeMarkdown(text: string): string {
 function listDirectory(dirPath: string): string {
   try {
     const targetPath = !dirPath || dirPath.trim() === '' || dirPath === '.' 
-      ? process.cwd() 
+      ? config.BASE_DIR
       : dirPath;
-    
-    const resolved = path.resolve(targetPath);
+
+    const resolved = path.resolve(config.BASE_DIR, targetPath);
+
+    if (!resolved.startsWith(config.BASE_DIR)) {
+      throw new Error('Permission denied: Access outside of allowed directory');
+    }
+
     const entries = fs.readdirSync(resolved, { withFileTypes: true });
 
     if (entries.length === 0) {

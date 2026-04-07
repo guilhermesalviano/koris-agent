@@ -1,9 +1,15 @@
+import { config } from "../config";
 import * as fs from "fs";
 import * as path from "path";
 
 function readFile(filename: string): string {
   try {
-    const resolved = path.resolve(filename);
+    const resolved = path.resolve(config.BASE_DIR, filename);
+    if (!resolved.startsWith(config.BASE_DIR)) {
+      throw new Error('Permission denied: Access outside of allowed directory');
+    }
+    console.log(`Resolved path: ${resolved}, Base dir: ${config.BASE_DIR}`);
+
     const stats = fs.statSync(resolved);
 
     if (stats.isDirectory()) {

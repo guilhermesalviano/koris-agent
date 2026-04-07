@@ -1,4 +1,10 @@
-node_modules
 dist
+
+node_modules
+
 .env
 .testresults
+
+SECURITY-QUICKREF.md
+SECURITY-RESULTS.md
+SECURITY-TESTS-SUMMARY.txt

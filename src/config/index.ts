@@ -1,8 +1,10 @@
 import 'dotenv/config';
+import path from 'path';
 
 export const config = {
   LOG_LEVEL: process.env.LOG_LEVEL || 'info',
   ENVIRONMENT: process.env.ENVIRONMENT || 'development',
+  BASE_DIR: path.resolve(process.cwd(), 'opencrawdio'),
   TELEGRAM: {
     BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || '',
   },
