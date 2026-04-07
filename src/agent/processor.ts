@@ -1,5 +1,6 @@
 // import { ILogger } from '@/infrastructure/logger';
 import { handleCommand as handleCentralizedCommand, isCommand } from './commands';
+import { listDirectory } from '../sub-instructions/instruction';
 
 /**
  * Process user messages and generate responses
@@ -95,7 +96,7 @@ async function handleInstruction(instruction: Instruction, originalMessage: stri
       return mockWriteFile(instruction.params, originalMessage);
 
     case 'list_dir':
-      return mockListDirectory(instruction.params);
+      return listDirectory(instruction.params);
 
     case 'execute_command':
       return mockExecuteCommand(instruction.params);
@@ -135,27 +136,6 @@ Based on your message:
 ⚠️ This would normally require your approval before writing.
 
 _This is a mock response. Real file operations will be implemented next._`;
-}
-
-function mockListDirectory(path: string): string {
-  return `📁 *Directory listing: ${path}*
-
-\`\`\`
-src/
-  config.ts
-  index.ts
-  telegram/
-    bot.ts
-    handlers.ts
-  cli/
-    interface.ts
-  agent/
-    processor.ts
-package.json
-tsconfig.json
-\`\`\`
-
-_This is a mock response. Real directory listing will show actual files._`;
 }
 
 function mockExecuteCommand(command: string): string {
