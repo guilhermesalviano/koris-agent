@@ -1,13 +1,38 @@
 import readline from 'readline';
 import { processUserMessage } from '../agent/processor';
 
+// ANSI color codes
+const colors = {
+  reset: '\x1b[0m',
+  bright: '\x1b[1m',
+  dim: '\x1b[2m',
+  cyan: '\x1b[36m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  magenta: '\x1b[35m',
+  gray: '\x1b[90m',
+  red: '\x1b[31m',
+};
+
+interface SessionState {
+  messageCount: number;
+  startTime: Date;
+}
+
 export function startCLI(): void {
-  console.log('🖥️  CLI Mode started. Type your messages or commands:\n');
+  const session: SessionState = {
+    messageCount: 0,
+    startTime: new Date(),
+  };
+
+  printWelcome();
 
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: 'You: ',
+    prompt: `${colors.cyan}>${colors.reset} `,
+    terminal: true,
   });
 
   rl.prompt();
@@ -20,29 +45,151 @@ export function startCLI(): void {
       return;
     }
 
-    // Handle exit
-    if (trimmed === '/exit' || trimmed === '/quit') {
-      console.log('\n👋 Goodbye!');
-      rl.close();
-      process.exit(0);
+    // Handle slash commands
+    if (trimmed.startsWith('/')) {
+      handleCommand(trimmed, rl, session);
       return;
     }
 
+    session.messageCount++;
+
     try {
-      // Process the message
+      // Show thinking indicator
+      process.stdout.write(`${colors.dim}${colors.gray}Thinking...${colors.reset}\n`);
+
       const response = await processUserMessage(trimmed, 'cli');
-      
-      // Display response
-      console.log(`\nAgent: ${response}\n`);
+
+      // Clear the thinking line
+      readline.clearLine(process.stdout, 0);
+      readline.moveCursor(process.stdout, 0, -1);
+
+      // Print response with formatting
+      console.log(`${colors.green}Assistant${colors.reset}\n`);
+      console.log(formatResponse(response));
+      console.log(); // Empty line for spacing
     } catch (error) {
-      console.error('Error:', error);
+      console.log(`${colors.red}✗ Error:${colors.reset} ${error instanceof Error ? error.message : String(error)}`);
+      console.log();
     }
 
     rl.prompt();
   });
 
   rl.on('close', () => {
-    console.log('\n👋 CLI closed.');
+    console.log(`\n${colors.dim}Session ended. Messages: ${session.messageCount}${colors.reset}`);
     process.exit(0);
   });
+
+  // Handle Ctrl+C gracefully
+  rl.on('SIGINT', () => {
+    console.log('\n');
+    rl.question(`${colors.yellow}Are you sure you want to exit? (y/n)${colors.reset} `, (answer) => {
+      if (answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes') {
+        rl.close();
+      } else {
+        rl.prompt();
+      }
+    });
+  });
+}
+
+function printWelcome(): void {
+  console.clear();
+  console.log(`${colors.bright}${colors.cyan}╔═══════════════════════════════════════════════════════════╗${colors.reset}`);
+  console.log(`${colors.bright}${colors.cyan}║${colors.reset}  ${colors.bright}OpenCrawDI - AI Assistant${colors.reset}                                ${colors.bright}${colors.cyan}║${colors.reset}`);
+  console.log(`${colors.bright}${colors.cyan}╚═══════════════════════════════════════════════════════════╝${colors.reset}`);
+  console.log();
+  console.log(`${colors.dim}Type your message or use slash commands for help.${colors.reset}`);
+  console.log(`${colors.dim}Commands: /help /clear /exit /stats${colors.reset}`);
+  console.log();
+}
+
+function handleCommand(command: string, rl: readline.Interface, session: SessionState): void {
+  const cmd = command.toLowerCase().split(' ')[0];
+
+  switch (cmd) {
+    case '/help':
+      printHelp();
+      break;
+
+    case '/clear':
+      console.clear();
+      printWelcome();
+      break;
+
+    case '/exit':
+    case '/quit':
+    case '/bye':
+      console.log(`\n${colors.green}👋 Goodbye!${colors.reset}`);
+      rl.close();
+      return;
+
+    case '/stats':
+      printStats(session);
+      break;
+
+    case '/reset':
+      session.messageCount = 0;
+      session.startTime = new Date();
+      console.log(`${colors.green}✓ Session reset${colors.reset}\n`);
+      break;
+
+    default:
+      console.log(`${colors.red}Unknown command: ${command}${colors.reset}`);
+      console.log(`${colors.dim}Type /help for available commands${colors.reset}\n`);
+  }
+
+  rl.prompt();
+}
+
+function printHelp(): void {
+  console.log();
+  console.log(`${colors.bright}Available Commands:${colors.reset}`);
+  console.log();
+  console.log(`  ${colors.cyan}/help${colors.reset}     - Show this help message`);
+  console.log(`  ${colors.cyan}/clear${colors.reset}    - Clear the screen`);
+  console.log(`  ${colors.cyan}/stats${colors.reset}    - Show session statistics`);
+  console.log(`  ${colors.cyan}/reset${colors.reset}    - Reset session statistics`);
+  console.log(`  ${colors.cyan}/exit${colors.reset}     - Exit the CLI`);
+  console.log();
+  console.log(`${colors.bright}Tips:${colors.reset}`);
+  console.log(`  ${colors.dim}• Press Ctrl+C to interrupt${colors.reset}`);
+  console.log(`  ${colors.dim}• Type naturally - no special format needed${colors.reset}`);
+  console.log();
+}
+
+function printStats(session: SessionState): void {
+  const uptime = Math.floor((Date.now() - session.startTime.getTime()) / 1000);
+  const minutes = Math.floor(uptime / 60);
+  const seconds = uptime % 60;
+
+  console.log();
+  console.log(`${colors.bright}Session Statistics:${colors.reset}`);
+  console.log();
+  console.log(`  ${colors.dim}Messages:${colors.reset} ${session.messageCount}`);
+  console.log(`  ${colors.dim}Uptime:${colors.reset}   ${minutes}m ${seconds}s`);
+  console.log(`  ${colors.dim}Started:${colors.reset}  ${session.startTime.toLocaleTimeString()}`);
+  console.log();
+}
+
+function formatResponse(response: string): string {
+  // Add subtle indentation and formatting
+  const lines = response.split('\n');
+  return lines
+    .map(line => {
+      // Highlight code blocks
+      if (line.trim().startsWith('```')) {
+        return `${colors.dim}${line}${colors.reset}`;
+      }
+      // Highlight bullet points
+      if (line.trim().startsWith('-') || line.trim().startsWith('•')) {
+        return `  ${colors.cyan}•${colors.reset}${line.substring(line.indexOf('-') + 1)}`;
+      }
+      // Highlight numbered lists
+      if (/^\s*\d+\./.test(line)) {
+        return `  ${line}`;
+      }
+      return line;
+    })
+    .join('\n');
 }

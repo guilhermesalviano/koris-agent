@@ -125,11 +125,13 @@ See [.github/copilot-instructions.md](.github/copilot-instructions.md) for detai
 
 ```
 src/
-├── config.ts           # Environment configuration
+├── config/index.ts           # Environment configuration
 ├── index.ts            # Entry point (Telegram or CLI mode)
 ├── telegram/           # Telegram bot implementation
 │   ├── bot.ts          # Bot initialization
 │   └── handlers.ts     # Message handlers
+├── infrastructure
+│   └── logger.ts       # Logger Factory with winston
 ├── cli/                # CLI interface
 │   └── interface.ts    # CLI prompt and input handling
 └── agent/              # Agent logic
@@ -138,9 +140,9 @@ src/
 
 ## To-do
 
-- [] wrap de IA, testes;
-- [] multi sessões - rodar me background com o telegram e ter a possibilidade de startar outra no CLI;
-- [] orquestrador do meu docker - interface http para saber qual container ligar;
+- [ ] wrap de IA, testes;
+- [ ] multi sessões - rodar me background com o telegram e ter a possibilidade de startar outra no CLI;
+- [ ] orquestrador do meu docker - interface http para saber qual container ligar;
   - Cachear responses, keep-alive enquanto liga...
 
 ## License
